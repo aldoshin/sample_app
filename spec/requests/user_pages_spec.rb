@@ -48,6 +48,11 @@ describe "UserPages" do
           expect { click_link('delete') }.to change(User, :count).by(-1)
         end
         it { should_not have_link('delete', href: user_path(admin)) }
+
+        describe "should not be able to delete itself" do
+          before {delete user_path(admin) }
+          specify { response.should redirect_to(root_path)}
+        end
       end
     end
   end
@@ -128,7 +133,6 @@ describe "UserPages" do
         before { click_button "Save changes" }
         it {should have_content('error') }
       end
-
 
     end
 

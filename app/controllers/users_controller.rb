@@ -4,6 +4,8 @@ class UsersController < ApplicationController
   before_filter :correct_user, only: [:edit, :update]
   before_filter :find_user_by_id, only: [:show]
   before_filter :admin_user, only: [:destroy]
+  before_filter :create_users, only: [:new, :create]
+  before_filter :destroy_itself, only: [:destroy]
   
   def index
     @users = User.paginate(:page => params[:page])
@@ -65,6 +67,15 @@ class UsersController < ApplicationController
 
     def admin_user
       redirect_to(root_path) unless current_user.admin?
+    end
+
+    def create_users
+      redirect_to(root_path) if signed_in?
+    end
+
+    def destroy_itself
+      find_user_by_id
+      redirect_to(root_path) if current_user?(@user)
     end
 
 end
