@@ -35,7 +35,8 @@ describe "MicropostPages" do
   	before { FactoryGirl.create(:micropost, user: user) }
 
   	it "should delete a micropost" do
-  		expect { click_link("delete") }.should change(Micropost, :count).by(-1)
+      visit root_path
+  		expect { click_link "delete" }.should change(Micropost, :count).by(-1)
   	end
   end
 
